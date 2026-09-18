@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "deny": [
+      "rm -rf /",
+      "format *",
+      "del /s /q C:\\*",
+      "Remove-Item -Recurse -Force C:\\*"
+    ]
+  }
+}

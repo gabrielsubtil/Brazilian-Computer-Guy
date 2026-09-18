@@ -1,0 +1,31 @@
+{
+  "name": "brazilian-computer-guy",
+  "version": "1.0.0",
+  "description": "Canivete suíço de TI para técnicos de informática em ambientes de IA (VS Code, Copilot, Antigravity, Claude Code, OpenCode e Codex)",
+  "main": "tools/reporting/generate-report.js",
+  "scripts": {
+    "validate": "node -e \"console.log('Validando estrutura do repositório BCG...'); const fs = require('fs'); const req = ['agent.md', 'soul.md', 'README.md', 'templates/report-template.md']; req.forEach(f => { if(!fs.existsSync(f)) throw new Error('Arquivo obrigatório ausente: ' + f); }); console.log('Validação de integridade concluída com sucesso!');\"",
+    "report": "node tools/reporting/generate-report.js"
+  },
+  "keywords": [
+    "ti",
+    "suporte-tecnico",
+    "manutencao-windows",
+    "manutencao-debian",
+    "mcp",
+    "copilot",
+    "vscode",
+    "ai-agent",
+    "antigravity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielsubtil/Brazilian-Computer-Guy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gabrielsubtil/Brazilian-Computer-Guy/issues"
+  },
+  "homepage": "https://github.com/gabrielsubtil/Brazilian-Computer-Guy#readme",
+  "author": "Brazilian Computer Guy Contributors",
+  "license": "MIT"
+}

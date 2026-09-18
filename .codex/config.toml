@@ -1,0 +1,13 @@
+# Configuração do Brazilian Computer Guy para OpenAI Codex
+
+[agent]
+instructions = "agent.md"
+personality = "soul.md"
+
+[mcp_servers.microsoft_learn]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-fetch", "https://learn.microsoft.com/api/mcp"]
+
+[mcp_servers.mcp_nettools]
+command = "python"
+args = ["-m", "mcp_nettools"]

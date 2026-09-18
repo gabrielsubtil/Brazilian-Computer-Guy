@@ -1,0 +1,44 @@
+# Persistência de estado local das máquinas atendidas (NUNCA versionar)
+.local/
+!.local/.gitkeep
+
+# Relatórios gerados para clientes (dados sensíveis/atendimentos reais)
+reports/
+relatorios/
+*.report.md
+*.report.html
+*.report.pdf
+
+# Logs de atendimento e temporários
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variáveis de ambiente e segredos
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.token
+
+# Dependências e caches
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+env/
+venv/
+.pytest_cache/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Caches de IDE específicos do usuário
+.idea/
+*.sublime-workspace
+*.sublime-project

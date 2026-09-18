@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["agent.md", "soul.md"],
+  "mcpServers": {
+    "microsoft-learn": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch", "https://learn.microsoft.com/api/mcp"]
+    },
+    "mcp-nettools": {
+      "command": "python",
+      "args": ["-m", "mcp_nettools"]
+    }
+  }
+}
