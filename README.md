@@ -72,6 +72,7 @@ Brazilian-Computer-Guy/
 │   └── rede/                     # Conectividade, DNS, Portas e Rotas
 │
 ├── pipelines/                    # Fluxos de diagnóstico e intervenção autorizada
+│   ├── README.md                 # Formato, selo e checklist de pipelines
 │   ├── reducao-de-processos-windows.md
 │   └── otimizacao-registro-windows.md
 │
