@@ -203,7 +203,10 @@ Chave: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control`. Valor: `SvcHostSpl
 - perde-se o isolamento de falha: serviços agrupados dividem o mesmo processo, então um serviço que trava pode derrubar os vizinhos do grupo, inclusive serviços de rede;
 - perde-se o isolamento de segurança: serviços no mesmo processo compartilham espaço de memória e contexto, que é exatamente a separação entre serviços que a Microsoft criou ao introduzir a divisão;[7]
 - perde-se a leitura por serviço no Gerenciador de Tarefas: o consumo passa a aparecer como `svchost.exe` genérico, o que atrapalha a própria triagem da seção 1;
-- o valor **não é documentado pela Microsoft**; não há garantia de que continue valendo ou seja respeitado após uma atualização do Windows.
+- o valor **não é documentado pela Microsoft**; não há garantia de que continue valendo ou seja respeitado após uma atualização do Windows;
+- **não é recomendação da Microsoft**: o valor não é documentado e a direção de projeto do Windows é a oposta, que é separar os serviços;
+- o ganho é **pequeno**; a própria Microsoft descreve como “redução modesta” de memória, então nunca venda o ajuste como solução de lentidão;
+- **o agente não decide**: apresenta o que muda, o que se perde e o que não é recomendado, e pergunta. Aplicar ou não é decisão do usuário, mesmo quando o ganho é pequeno — e recusar é uma resposta legítima, que não deve ser insistida.
 
 ### 8.4 Proibido
 
@@ -211,7 +214,24 @@ Chave: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control`. Valor: `SvcHostSpl
 - usar o ajuste como substituto de remover aplicativo de terceiro da inicialização (seções 2 e 3);
 - aplicar com a base **Decimal** selecionada: `800000` em decimal são 781 MB, abaixo da RAM de qualquer máquina atual, e o efeito se inverte — o Windows divide tudo e a contagem de processos **aumenta** em vez de diminuir;
 - apresentar o ajuste como ganho de desempenho mensurável sem medição antes/depois;
-- propor a mesma classe de ajuste para outros valores de Registro sem procedimento próprio e fonte primária.
+- propor a mesma classe de ajuste para outros valores de Registro sem procedimento próprio e fonte primária;
+- apresentar o ajuste como recomendação da Microsoft, ou omitir que não é;
+- decidir pelo usuário, aplicar sem confirmação explícita dele, ou insistir depois de uma recusa.
+
+### 8.5 Modelo de apresentação obrigatório
+
+> **[PROPOSTA DE AJUSTE DE REGISTRO — BCG]**
+> **O que é:** alterar o valor `SvcHostSplitThresholdInKB`, em `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control`, de `380000` (padrão, 3,5 GB) para `{VALOR}` em **hexadecimal**, correspondente a `{RAM}` GB.
+> **O que muda:** hoje cada serviço roda no próprio processo `svchost.exe` (tipicamente 67–74 instâncias). Com o ajuste, os serviços voltam a ser agrupados (tipicamente 17–21) e o consumo de memória cai de forma modesta.
+> **A Microsoft recomenda?** **Não.** O valor não é documentado pela Microsoft e o projeto do Windows segue na direção oposta, que é separar os serviços. Este ajuste não é suportado nem recomendado por ela.
+> **Ganho esperado:** pequeno, e somente de memória. **Não** há ganho de velocidade, de resposta ou de tempo de inicialização.
+> **O que se perde:** isolamento de falha (um serviço que trava pode derrubar os vizinhos do mesmo grupo, inclusive serviços de rede); isolamento de segurança entre serviços (processos compartilhados dividem memória e contexto); a leitura de consumo por serviço no Gerenciador de Tarefas; e não há garantia de que o valor continue sendo respeitado após atualizações do Windows.
+> **Reversão:** apagar o valor ou voltar para `380000` e reiniciar. Ponto de restauração: `{registrar se foi criado}`.
+> **Atenção na aplicação:** confirmar **Hexadecimal** selecionado na janela de edição. Com **Decimal**, o mesmo número corresponde a `{KB}` KB, abaixo da RAM instalada, e o efeito se inverte — a quantidade de processos aumenta.
+>
+> Mesmo com ganho pequeno e sem recomendação da Microsoft, aplicar ou não é **sua decisão**. Deseja autorizar **somente esta alteração**?
+
+Se o usuário recusar, registre a recusa e encerre o tema: não reintroduza o ajuste em atendimento posterior sem pedido explícito novo.
 
 ## Histórico e diferenças resumidas
 
