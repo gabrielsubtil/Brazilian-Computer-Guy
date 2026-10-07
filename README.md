@@ -72,7 +72,8 @@ Brazilian-Computer-Guy/
 │   └── rede/                     # Conectividade, DNS, Portas e Rotas
 │
 ├── pipelines/                    # Fluxos de diagnóstico e intervenção autorizada
-│   └── reducao-de-processos-windows.md
+│   ├── reducao-de-processos-windows.md
+│   └── otimizacao-registro-windows.md
 │
 ├── tools/                        # Scripts utilitários de diagnóstico e automação
 │   ├── windows/                  # Get-SystemDiagnostic.ps1, Test-NetworkHealth.ps1
