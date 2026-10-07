@@ -14,7 +14,7 @@ Use este pipeline quando o usuário pedir para “reduzir processos”, acelerar
 ## Regras inegociáveis
 
 1. Comece em modo somente leitura; inventariar não autoriza mudar nada.
-2. Não encerre processos aleatoriamente, não aplique debloaters/listas genéricas e não delete entradas de Registro, tarefas ou serviços.
+2. Não encerre processos aleatoriamente, não aplique debloaters/listas genéricas e não delete entradas de Registro, tarefas ou serviços. A única exceção de Registro admitida é o ajuste condicionado da seção 8.
 3. Priorize: aplicativo de terceiros no logon → permissão de app em segundo plano → tarefa de terceiro → serviço de terceiro. Serviços Windows só entram em análise individual, com dependências verificadas.
 4. **Nunca proponha desativar para obter desempenho:** Microsoft Defender/Segurança do Windows, Firewall, Windows Update, BITS, RPC, RPC Endpoint Mapper, DCOM, DHCP Client, DNS Client, Network Location Awareness, Plug and Play, Event Log, serviços de drivers/armazenamento/energia, logon/perfil, backup ou recuperação.
 5. Para cada mudança aprovada, altere uma entrada ou um grupo funcional pequeno, reinicie quando necessário, valide e registre como reverter.
@@ -162,6 +162,57 @@ Após uma alteração autorizada:
 
 Para diagnóstico de conflito no Windows 10/11, a Microsoft orienta voltar à inicialização normal após a inicialização limpa.[5]
 
+## 8. Ajuste de Registro de desempenho — classe restrita
+
+Existe uma classe de ajuste que **não** é inicialização de aplicativo nem serviço de terceiro: alterar um valor de Registro que muda comportamento interno do Windows. Aqui ela é admitida **apenas** sob as condições da seção 8.2, e o caso conhecido é o limiar de agrupamento de serviços, `SvcHostSplitThresholdInKB`.
+
+### 8.1 O que o ajuste faz
+
+Desde o Windows 10 1703, o Windows separa serviços que antes ficavam agrupados: cada um passa a rodar no seu próprio processo `svchost.exe`. Isso eleva a contagem típica de instâncias de 17–21 (agrupadas) para 67–74 (separadas) e **aumenta** o consumo de memória. O valor `SvcHostSplitThresholdInKB` (DWORD 32 bits, em KB, base **hexadecimal**) define o limiar de RAM a partir do qual essa separação acontece; o padrão `380000` corresponde a 3,5 GB. Igualar o valor à RAM instalada força o modo agrupado: menos processos e **redução modesta** de memória.[7]
+
+Referência de valores, todos em **hexadecimal**, iguais à RAM instalada:
+
+| RAM | Valor (hex) |
+|---|---|
+| padrão | `380000` (3,5 GB) |
+| 4 GB | `400000` |
+| 6 GB | `600000` |
+| 8 GB | `800000` |
+| 12 GB | `C00000` |
+| 16 GB | `1000000` |
+| 24 GB | `1800000` |
+| 32 GB | `2000000` |
+| 64 GB | `4000000` |
+
+Chave: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control`. Valor: `SvcHostSplitThresholdInKB` (DWORD 32 bits).
+
+### 8.2 Condições obrigatórias (todas)
+
+1. máquina **pessoal**; nunca corporativa, com domínio, MDM, EDR ou suporte gerenciado;
+2. Windows 10 1703 ou superior; em máquina com 3,5 GB ou menos o ajuste não altera nada;
+3. pedido explícito do usuário para reduzir processos/consumo, com sintoma medido antes;
+4. ponto de restauração ou backup do hive, com o valor anterior anotado (`380000` é o padrão);
+5. valor digitado **com a base Hexadecimal selecionada**, igual à RAM instalada em KB, conferindo a base na tela antes de aplicar;
+6. reinício após a alteração e medição antes/depois (contagem de `svchost.exe` e memória total);
+7. rollback escrito: apagar o valor ou restaurar `380000` e reiniciar;
+8. proposta apresentada na forma da seção 6 antes de aplicar, com autorização explícita.
+
+### 8.3 O que deve ser dito ao usuário, sempre
+
+- o ganho é de **memória** e é modesto; **não** é ganho de velocidade — não prometa “mais rápido”, “mais liso” ou tempo de boot menor;
+- perde-se o isolamento de falha: serviços agrupados dividem o mesmo processo, então um serviço que trava pode derrubar os vizinhos do grupo, inclusive serviços de rede;
+- perde-se o isolamento de segurança: serviços no mesmo processo compartilham espaço de memória e contexto, que é exatamente a separação entre serviços que a Microsoft criou ao introduzir a divisão;[7]
+- perde-se a leitura por serviço no Gerenciador de Tarefas: o consumo passa a aparecer como `svchost.exe` genérico, o que atrapalha a própria triagem da seção 1;
+- o valor **não é documentado pela Microsoft**; não há garantia de que continue valendo ou seja respeitado após uma atualização do Windows.
+
+### 8.4 Proibido
+
+- aplicar em máquina corporativa, com EDR, ou cujo usuário não consiga reverter;
+- usar o ajuste como substituto de remover aplicativo de terceiro da inicialização (seções 2 e 3);
+- aplicar com a base **Decimal** selecionada: `800000` em decimal são 781 MB, abaixo da RAM de qualquer máquina atual, e o efeito se inverte — o Windows divide tudo e a contagem de processos **aumenta** em vez de diminuir;
+- apresentar o ajuste como ganho de desempenho mensurável sem medição antes/depois;
+- propor a mesma classe de ajuste para outros valores de Registro sem procedimento próprio e fonte primária.
+
 ## Histórico e diferenças resumidas
 
 | Tema | Windows 7 | Windows 10 | Windows 11 |
@@ -179,3 +230,4 @@ Para diagnóstico de conflito no Windows 10/11, a Microsoft orienta voltar à in
 [4] https://learn.microsoft.com/en-us/lifecycle/products/windows-7
 [5] https://support.microsoft.com/en-US/topic/how-to-perform-a-clean-boot-in-windows-da2f9573-6eec-00ad-2f8a-a97a1807f3dd
 [6] https://learn.microsoft.com/en-us/lifecycle/products/windows-10-home-and-pro
+[7] https://learn.microsoft.com/windows/application-management/svchost-service-refactoring
