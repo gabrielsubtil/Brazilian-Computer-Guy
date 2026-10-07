@@ -8,8 +8,9 @@ Esta matriz define a compatibilidade homologada do **Brazilian Computer Guy** en
 
 | Sistema Operacional | Nível de Suporte | Runtimes Recomendados | Observações e Limitações |
 |---|---|---|---|
+| **Windows 7 SP1** | **Legado / Não suportado** | PowerShell 2.0+ / WMI | Suporte encerrado; o BCG só oferece diagnóstico compatível e orienta migração ou isolamento. Não prometer ferramentas modernas. |
 | **Windows 11 (22H2 / 23H2 / 24H2)** | **Nativo / Pleno** | PowerShell 5.1 / 7+, Winget | Suporte completo a todos os SOPs, DISM, SFC e MCPs. |
-| **Windows 10 (21H2 / 22H2)** | **Nativo / Pleno** | PowerShell 5.1 / 7+, Winget | Suporte completo. Requer Winget atualizado via App Installer. |
+| **Windows 10 (21H2 / 22H2)** | **Legado / Condicionado** | PowerShell 5.1 / 7+, Winget | Home/Pro 22H2 encerrou suporte geral em 14/10/2025; validar edição, ESU/LTSC e plano de migração antes de qualquer manutenção. |
 | **Windows 8 / 8.1** | **Legado / Condicionado** | PowerShell 4.0 / WMI | Winget indisponível. Cmdlets modernos de rede ausentes. Seguir `SOP-WIN-LEGACY`. |
 | **Debian 12 (Bookworm)** | **Nativo / Pleno** | Bash 5+, Python 3.11+, Systemd | Suporte total a SOPs de Systemd, APT, Journald e rede. |
 | **Debian 11 (Bullseye)** | **Nativo / Pleno** | Bash 5+, Python 3.9+, Systemd | Suporte total aos SOPs Debian. |

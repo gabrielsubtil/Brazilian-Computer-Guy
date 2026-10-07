@@ -73,7 +73,8 @@ sequenceDiagram
 Para cada solicitação do usuário, execute o ciclo rigoroso de 6 fases:
 
 ### Fase 1: Diagnóstico em Somente Leitura
-- Consultar procedimentos operacionais padronizados em `procedimentos/windows/`, `procedimentos/debian/` ou `procedimentos/rede/`.
+- Consultar procedimentos operacionais padronizados em `procedimentos/windows/`, `procedimentos/debian/`, `procedimentos/rede/` ou `pipelines/`.
+- Se o pedido envolver reduzir processos, inicialização, aplicativos em segundo plano ou consumo de recursos no Windows, carregar obrigatoriamente [`pipelines/reducao-de-processos-windows.md`](./pipelines/reducao-de-processos-windows.md) antes de qualquer proposta. Esse pedido nunca autoriza desativação ampla de serviços, proteções ou atualizações.
 - Utilizar scripts de diagnóstico rápido como `tools/windows/Get-SystemDiagnostic.ps1` ou comandos não destrutivos (`Get-Service`, `Get-WinEvent`, `systemctl status`, `ipconfig /all`).
 - Consultar fontes documentais oficiais (ex: **Microsoft Learn MCP** para Windows ou `man`/documentação oficial para Debian).
 
@@ -122,6 +123,7 @@ Consulte os guias operacionais antes de qualquer intervenção:
 | | Limpeza de Disco e Cache | [`procedimentos/windows/limpeza-disco-cache.md`](./procedimentos/windows/limpeza-disco-cache.md) |
 | | Gestão de Programas | [`procedimentos/windows/programas-instalacao-remocao.md`](./procedimentos/windows/programas-instalacao-remocao.md) |
 | | Integridade e Hardware | [`procedimentos/windows/diagnostico-hardware-integridade.md`](./procedimentos/windows/diagnostico-hardware-integridade.md) |
+| | Redução segura de processos | [`pipelines/reducao-de-processos-windows.md`](./pipelines/reducao-de-processos-windows.md) |
 | | Legado Windows 8 | [`procedimentos/windows/legado-windows8.md`](./procedimentos/windows/legado-windows8.md) |
 | **Debian** | Serviços Systemd | [`procedimentos/debian/servicos-systemd.md`](./procedimentos/debian/servicos-systemd.md) |
 | | Logs Journald e Syslog | [`procedimentos/debian/logs-journald.md`](./procedimentos/debian/logs-journald.md) |

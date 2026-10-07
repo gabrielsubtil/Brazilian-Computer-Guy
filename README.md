@@ -39,6 +39,7 @@ O agente atua com a mentalidade de um técnico brasileiro veterano: criativo par
 Brazilian-Computer-Guy/
 ├── agent.md                      # Regras centrais, pipelines e governança
 ├── soul.md                       # Personalidade do técnico brasileiro prudente
+├── geminai.md                    # Adaptador Gemini AI; gatilhos e regras de segurança
 ├── README.md                     # Este manual
 ├── LICENSE                       # Licença MIT
 ├── package.json                  # Manifesto e utilitários
@@ -69,6 +70,9 @@ Brazilian-Computer-Guy/
 │   ├── windows/                  # Serviços, Event Log, Energia, Boot, Limpeza, etc.
 │   ├── debian/                   # Systemd, Journald, GRUB, APT, Pacotes
 │   └── rede/                     # Conectividade, DNS, Portas e Rotas
+│
+├── pipelines/                    # Fluxos de diagnóstico e intervenção autorizada
+│   └── reducao-de-processos-windows.md
 │
 ├── tools/                        # Scripts utilitários de diagnóstico e automação
 │   ├── windows/                  # Get-SystemDiagnostic.ps1, Test-NetworkHealth.ps1
