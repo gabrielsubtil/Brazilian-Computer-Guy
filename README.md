@@ -47,8 +47,15 @@ Brazilian-Computer-Guy/
 ├── package.json                  # Manifesto e utilitários
 ├── .gitignore                    # Bloqueio estrito de persistência e dados locais
 │
-├── .github/                      # Adaptador para GitHub Copilot no VS Code
-│   └── copilot-instructions.md
+├── .github/                      # Adaptador Copilot, templates de issue e CI
+│   ├── copilot-instructions.md
+│   ├── release.yml               # Agrupamento das notas de release
+│   ├── ISSUE_TEMPLATE/           # Relato de problema e proposta de SOP
+│   └── workflows/validate.yml    # Valida estrutura, scripts e links internos
+│
+├── assets/                       # Imagem de compartilhamento (social preview)
+│   ├── social-preview.svg
+│   └── social-preview.png
 ├── .vscode/                      # Configurações de MCP e workspace do VS Code
 │   ├── mcp.json
 │   └── settings.json

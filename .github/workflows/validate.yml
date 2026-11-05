@@ -1,0 +1,75 @@
+name: validate
+
+# Validação de integridade do repositório: manifesto, scripts e links internos.
+# Somente leitura: nenhum passo instala o BCG nem executa procedimentos de manutenção.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  manifesto:
+    name: Manifesto e estrutura
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validar estrutura obrigatória
+        run: npm run validate --silent
+      - name: Conferir JSON dos adaptadores MCP
+        run: |
+          set -euo pipefail
+          for f in .mcp.json .vscode/mcp.json .agents/mcp_config.json opencode.json package.json; do
+            python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$f"
+            echo "OK $f"
+          done
+
+  shell:
+    name: Scripts shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar sintaxe dos scripts
+        run: |
+          set -euo pipefail
+          find tools -name '*.sh' -print0 | xargs -0 -r -n1 bash -n
+          echo "Sintaxe OK"
+
+  links:
+    name: Links internos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar links relativos dos Markdown
+        run: |
+          python3 - <<'PY'
+          import os, re, sys
+          root, bad, checked = os.getcwd(), [], 0
+          for dirpath, _, files in os.walk(root):
+              if '.git' in dirpath:
+                  continue
+              for fn in files:
+                  if not fn.endswith('.md'):
+                      continue
+                  p = os.path.join(dirpath, fn)
+                  txt = open(p, encoding='utf-8').read()
+                  for m in re.finditer(r'\[[^\]]*\]\(([^)]+)\)', txt):
+                      tgt = m.group(1).split('#')[0].strip()
+                      if not tgt or tgt.startswith(('http://', 'https://', 'mailto:')):
+                          continue
+                      checked += 1
+                      if not os.path.exists(os.path.normpath(os.path.join(dirpath, tgt))):
+                          bad.append((os.path.relpath(p, root), tgt))
+          print(f'links relativos verificados: {checked}')
+          for b in bad:
+              print('QUEBRADO:', b)
+          sys.exit(1 if bad else 0)
+          PY

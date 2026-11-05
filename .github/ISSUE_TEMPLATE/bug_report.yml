@@ -1,0 +1,95 @@
+name: Relato de problema técnico
+description: Documente um sintoma observado para diagnóstico em somente leitura
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de abrir: rode o diagnóstico em **somente leitura**. Não cole caminhos de usuário, nomes de arquivos pessoais, tokens, IPs internos ou trechos de tela com dados privados.
+
+  - type: textarea
+    id: sintoma
+    attributes:
+      label: Sintoma
+      description: O que aconteceu, em uma frase objetiva.
+      placeholder: "Ex.: o serviço X para sozinho depois de 2 minutos de uso."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: Sistema operacional
+      options:
+        - Windows 11
+        - Windows 10
+        - Debian 12 (Bookworm)
+        - Debian 11 (Bullseye)
+        - Windows 8 / 8.1 (legado)
+        - Outro
+    validations:
+      required: true
+
+  - type: input
+    id: versao
+    attributes:
+      label: Versão, edição e arquitetura
+      placeholder: "Windows 11 24H2 Pro · x64"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: cliente
+    attributes:
+      label: Cliente de IA em uso
+      options:
+        - VS Code + GitHub Copilot
+        - Claude Code
+        - OpenCode
+        - OpenAI Codex
+        - Antigravity IDE
+        - Nenhum (execução manual)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: camada
+    attributes:
+      label: Camada envolvida
+      options:
+        - Shell (PowerShell / Bash)
+        - Rede
+        - Interface gráfica (Computer Use)
+        - Adaptadores e carregamento de instruções
+        - Não sei
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidência coletada (somente leitura)
+      description: Saída de comando ou estado observado, já sanitizada.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: descartado
+    attributes:
+      label: O que já foi descartado
+      description: Hipóteses verificadas e a evidência que as descartou.
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+
+  - type: input
+    id: sop
+    attributes:
+      label: SOP relacionado
+      placeholder: "procedimentos/windows/servicos.md"
