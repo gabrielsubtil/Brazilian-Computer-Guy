@@ -1,0 +1,32 @@
+# Agrupamento das notas de release no GitHub.
+# Usado pelo "Generate release notes" ao criar uma tag.
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - dependabot
+  categories:
+    - title: Adições e mudanças de comportamento
+      labels:
+        - feat
+        - feature
+    - title: Correções
+      labels:
+        - fix
+        - bugfix
+    - title: Documentação e procedimentos
+      labels:
+        - docs
+        - procedures
+    - title: Pipeline, ferramentas e governança
+      labels:
+        - chore
+        - ci
+        - build
+    - title: Segurança
+      labels:
+        - security
+    - title: Outras mudanças
+      labels:
+        - "*"

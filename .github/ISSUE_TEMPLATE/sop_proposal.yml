@@ -1,0 +1,72 @@
+name: Proposta de procedimento ou pipeline
+description: Proponha um SOP novo ou a correção de um existente
+title: "[sop] "
+labels: ["docs"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Um SOP do BCG precisa declarar pré-requisitos, escopo, comandos somente leitura, proposta de intervenção, validação e rollback. Pipeline tem regra adicional: fluxo de decisão longo e selo por item.
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo de proposta
+      options:
+        - SOP novo
+        - Correção de SOP existente
+        - Pipeline nova
+        - Correção de pipeline
+    validations:
+      required: true
+
+  - type: input
+    id: area
+    attributes:
+      label: Área e plataforma
+      placeholder: "Windows / serviços · Debian / systemd · Rede / DNS · Interface gráfica"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual problema real o procedimento resolve
+      description: Cite o sintoma observado, não a configuração que você quer aplicar.
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostico
+    attributes:
+      label: Diagnóstico somente leitura proposto
+      description: Comandos sem efeito colateral que coletam a evidência.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: intervencao
+    attributes:
+      label: Intervenção, efeito e rollback
+      description: Ação exata, alvo, motivo, efeito esperado, riscos e como reverter.
+
+  - type: textarea
+    id: fonte
+    attributes:
+      label: Fonte oficial
+      description: URL da documentação oficial da Microsoft, Debian ou do projeto upstream que sustenta o procedimento.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: regras
+    attributes:
+      label: Confirmações
+      options:
+        - label: O procedimento começa em somente leitura e não aplica pacote de ajustes.
+          required: true
+        - label: Não altera Defender, Firewall, Windows Update nem política de rede sem seção própria e explícita.
+          required: true
+        - label: Não inclui dados de máquina real, credenciais ou caminhos de usuário.
+          required: true

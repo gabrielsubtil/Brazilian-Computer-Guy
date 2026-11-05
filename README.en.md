@@ -47,8 +47,15 @@ Brazilian-Computer-Guy/
 ├── package.json                  # Manifest, metadata, and verification scripts
 ├── .gitignore                    # Strict blocking of local states (.local/), logs, and reports
 │
-├── .github/                      # VS Code / GitHub Copilot Agent adapter
-│   └── copilot-instructions.md
+├── .github/                      # Copilot adapter, issue templates and CI
+│   ├── copilot-instructions.md
+│   ├── release.yml               # Release notes grouping
+│   ├── ISSUE_TEMPLATE/           # Bug report and SOP proposal
+│   └── workflows/validate.yml    # Validates structure, scripts and internal links
+│
+├── assets/                       # Social preview image
+│   ├── social-preview.svg
+│   └── social-preview.png
 ├── .vscode/                      # VS Code workspace & MCP definitions
 │   ├── mcp.json                  # Microsoft Learn (SSE) + mcp-nettools (stdio)
 │   └── settings.json

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentação da arquitetura
+    url: https://github.com/gabrielsubtil/Brazilian-Computer-Guy/blob/main/docs/architecture.md
+    about: Como o BCG está estruturado em camadas, do adaptador de IA até a auditoria.
+  - name: Camada de Computer Use
+    url: https://github.com/gabrielsubtil/Brazilian-Computer-Guy/blob/main/docs/computer-use.md
+    about: Classes de comando (A/B/C), referências por snapshot e limites por plataforma.
+  - name: Matriz de compatibilidade
+    url: https://github.com/gabrielsubtil/Brazilian-Computer-Guy/blob/main/docs/matrix-compatibility.md
+    about: O que é suportado, condicionado e não homologado por sistema e por cliente de IA.
