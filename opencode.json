@@ -9,6 +9,10 @@
     "mcp-nettools": {
       "command": "python",
       "args": ["-m", "mcp_nettools"]
+    },
+    "agent-desktop": {
+      "command": "agent-desktop",
+      "args": ["mcp"]
     }
   }
 }

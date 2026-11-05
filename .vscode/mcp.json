@@ -8,6 +8,11 @@
       "type": "stdio",
       "command": "python",
       "args": ["-m", "mcp_nettools"]
+    },
+    "agent-desktop": {
+      "type": "stdio",
+      "command": "agent-desktop",
+      "args": ["mcp"]
     }
   }
 }

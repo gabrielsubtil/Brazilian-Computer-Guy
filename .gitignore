@@ -16,6 +16,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Artefatos da camada de Computer Use (snapshots, screenshots e traces de GUI
+# podem conter conteúdo privado da máquina atendida — NUNCA versionar)
+.agent-desktop/
+gui-artifacts/
+skills-snapshot/
+*.trace.json
+*.snapshot.json
+screenshot-*.png
+
 # Variáveis de ambiente e segredos
 .env
 .env.local

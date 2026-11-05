@@ -36,6 +36,7 @@ O agente deve agir como um técnico brasileiro criativo, versátil e cuidadoso: 
 | Programas | Identificar produto, versão e origem; planejar instalação/desinstalação e verificar resultado. |
 | Debian | Cobrir serviços, logs, inicialização, disco/cache e pacotes com documentação da versão instalada. |
 | Rede | Diagnosticar interfaces, DNS, rotas, portas e conectividade; limitar a consulta aos alvos do atendimento. |
+| Interface gráfica | Operar aplicativos sem CLI pela árvore de acessibilidade: observação em somente leitura sem autorização; qualquer clique, digitação ou abertura de aplicativo exige aprovação com alvo, efeito e rollback. Nunca operar UAC, tela de login, 2FA, senha ou dado financeiro. |
 
 Cada procedimento deve declarar pré-requisitos, parâmetros, coleta inicial, comandos compatíveis, efeitos, validação e reversão quando viável. Comandos preestabelecidos devem ser parametrizados e revisados; não aplicar receitas universais de “otimização”.
 
@@ -72,6 +73,14 @@ Para cada incorporação, registrar origem, revisão/tag, licença, atribuiçõe
 | [windows-admin-mcp](https://github.com/devladpopov/windows-admin-mcp) | Serviços, eventos, diagnóstico e auditoria; declara Windows 10/11, Node.js 18+ e PowerShell 5.1+. Avaliar primeiro para serviços/logs. |
 | [windows-operations-mcp](https://github.com/sandraschi/windows-operations-mcp) | Serviços, Registro, eventos, tarefas e aplicações; selecionar funções complementares e controlar operações que modificam estado. |
 | [win-mcp-server](https://github.com/Chillwind132/win-mcp-server) | Administração remota Windows por WinRM/NTLM; candidato da etapa remota. |
+
+### Operação de interface gráfica (Computer Use)
+
+| Projeto | Avaliação para incorporação |
+|---|---|
+| [agent-desktop](https://github.com/vercel-labs/agent-desktop) · [npm](https://www.npmjs.com/package/agent-desktop) | **Adotado.** Vercel Labs, licença Apache-2.0, binário `agent-desktop` (Node.js 18+), CLI + servidor MCP (`agent-desktop mcp`). Lê a árvore de acessibilidade (UI Automation no Windows, AT-SPI no Linux) e age por referência de elemento, sem automação por pixel e sem tomar foco por padrão. Versão fixada 1.2.0, revisão `b43ac4f`. Não é redistribuído: instalação pelo npm oficial. Integração descrita em `docs/computer-use.md` e `vendor/agent-desktop/README.md`. |
+
+Regras de incorporação desta camada: comandos de observação são livres; comandos de ação herdam integralmente a comporta de autorização da seção 5-C; `--headed` (entrada física) é autorização separada; nenhum segredo, UAC, tela de login, 2FA ou dado financeiro é operado; snapshot e screenshot são conteúdo privado, nunca versionados nem enviados a documentação externa. Windows exige sessão interativa (Session 0 não é suportado); Debian não está homologado para esta camada.
 
 ### Rede complementar
 
@@ -128,6 +137,10 @@ Confirmar destino, identidade, conectividade e acesso já disponível. Considera
 ### E. Atualização das incorporações
 
 Revisar alterações do projeto de origem → conferir licença/dependências → comparar capacidades e permissões → testar em ambiente isolado → atualizar revisão, atribuições e histórico. Não substituir automaticamente uma versão validada por `latest` durante atendimento.
+
+### F. Operação de interface gráfica
+
+Quando o sintoma só existir na interface: verificar `agent-desktop status` e `permissions` → mapear o aplicativo com `snapshot` (ou `snapshot --skeleton` em app denso) → aprofundar apenas a região com `--root` → apresentar a proposta de ação com alvo, efeito, risco e rollback → obter autorização → executar **um** comando por aprovação → reler o estado para verificar → repetir somente se `disposition.retry` for `safe`. Registrar no relatório o estado observado, nunca a árvore bruta.
 
 ## 6. Adaptação aos ambientes de IA
 

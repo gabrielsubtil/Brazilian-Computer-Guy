@@ -59,3 +59,31 @@ Para garantir máxima resiliência mesmo quando servidores MCP externos não pud
 - `tools/debian/network_health.sh`
 
 Esses utilitários funcionam nativamente sem dependências externas, garantindo que o técnico nunca fique sem capacidade diagnóstica.
+
+---
+
+## 4. Operação de Interface Gráfica
+
+### agent-desktop (Vercel Labs)
+- **Origem:** [vercel-labs/agent-desktop](https://github.com/vercel-labs/agent-desktop) — mantido pelo Vercel Labs, licença **Apache-2.0** ([LICENSE](https://github.com/vercel-labs/agent-desktop/blob/main/LICENSE)).
+- **Referência:** npm `agent-desktop` v1.2.0, revisão `b43ac4f6e892ef608f8851428613c4009f0e84c7` (2026-11-05). [Documentação upstream](https://agent-browser.dev/desktop).
+- **Transporte:** CLI (`agent-desktop`) e servidor MCP stdio (`agent-desktop mcp`), executados localmente.
+- **Requisitos:** Node.js 18+ e binário nativo; Windows 10 1809+ / Server 2019+ (x64/ARM64) em sessão interativa, ou Ubuntu 24.04+ (x86_64/aarch64), glibc ≥ 2.35 e AT-SPI em sessão gráfica. Debian 11/12 não homologado; macOS 13+ suportado no upstream, fora do escopo do BCG. Limites de Session 0/SSH e Wayland em [`matrix-compatibility.md`](../docs/matrix-compatibility.md).
+- **Capacidades Oferecidas:**
+  - Observação por árvore de acessibilidade e snapshots com referências qualificadas.
+  - Ações por referência de elemento, subordinadas à aprovação explícita da Classe B.
+  - Sessões e trace para acompanhamento da operação, com proteção do conteúdo privado.
+  - Envelope JSON com `disposition.delivery` e `disposition.retry`; repetição somente quando `retry == safe`.
+- **Governança:** Headless por padrão; `--headed` exige autorização separada para entrada física. Classe C nunca é autorizada.
+- **Configuração MCP nos clientes:** Declarar o servidor local `agent-desktop`, com comando `agent-desktop` e argumento `mcp`, respeitando o formato de cada cliente:
+
+  | Cliente | Arquivo de configuração |
+  |---|---|
+  | VS Code / Copilot | `.vscode/mcp.json` |
+  | Antigravity IDE | `.agents/mcp_config.json` |
+  | Claude Code | `.mcp.json` |
+  | OpenCode | `opencode.json` |
+  | Codex | `.codex/config.toml` |
+
+- **Registro e regras:** [`vendor/agent-desktop/README.md`](./agent-desktop/README.md) e [`docs/computer-use.md`](../docs/computer-use.md).
+- **Atribuição:** `agent-desktop` é um projeto do Vercel Labs, sob Apache-2.0. O BCG não redistribui seu código ou binário, e esta integração não é endossada pela Vercel. Créditos completos em [`CREDITS.md`](../CREDITS.md).

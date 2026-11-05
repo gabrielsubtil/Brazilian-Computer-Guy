@@ -4,8 +4,9 @@
   "description": "Canivete suíço de TI para técnicos de informática em ambientes de IA (VS Code, Copilot, Antigravity, Claude Code, OpenCode e Codex)",
   "main": "tools/reporting/generate-report.js",
   "scripts": {
-    "validate": "node -e \"console.log('Validando estrutura do repositório BCG...'); const fs = require('fs'); const req = ['agent.md', 'soul.md', 'README.md', 'templates/report-template.md']; req.forEach(f => { if(!fs.existsSync(f)) throw new Error('Arquivo obrigatório ausente: ' + f); }); console.log('Validação de integridade concluída com sucesso!');\"",
-    "report": "node tools/reporting/generate-report.js"
+    "validate": "node -e \"console.log('Validando estrutura do repositório BCG...'); const fs = require('fs'); const req = ['agent.md', 'soul.md', 'README.md', 'templates/report-template.md', 'docs/computer-use.md']; req.forEach(f => { if(!fs.existsSync(f)) throw new Error('Arquivo obrigatório ausente: ' + f); }); console.log('Validação de integridade concluída com sucesso!');\"",
+    "report": "node tools/reporting/generate-report.js",
+    "computer-use:check": "bash tools/computer-use/check_agent_desktop.sh"
   },
   "keywords": [
     "ti",
@@ -16,7 +17,11 @@
     "copilot",
     "vscode",
     "ai-agent",
-    "antigravity"
+    "antigravity",
+    "computer-use",
+    "agent-desktop",
+    "gui-automation",
+    "accessibility"
   ],
   "repository": {
     "type": "git",

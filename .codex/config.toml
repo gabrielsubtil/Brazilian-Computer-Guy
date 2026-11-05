@@ -11,3 +11,8 @@ args = ["-y", "@modelcontextprotocol/server-fetch", "https://learn.microsoft.com
 [mcp_servers.mcp_nettools]
 command = "python"
 args = ["-m", "mcp_nettools"]
+
+# Camada de Computer Use (docs/computer-use.md). Requer `agent-desktop` no PATH.
+[mcp_servers.agent_desktop]
+command = "agent-desktop"
+args = ["mcp"]
