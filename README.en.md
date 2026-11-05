@@ -25,6 +25,7 @@ The agent embodies the mindset of a veteran Brazilian IT technician: resourceful
 ## 🚀 Key Capabilities
 
 - 🔍 **Read-Only First Diagnostics:** Comprehensive evidence collection without risks of downtime or accidental data loss.
+- 🖱️ **GUI Operation (Computer Use):** Reads the OS accessibility tree (UI Automation on Windows, AT-SPI on Linux) to diagnose and operate applications that have no command-line interface — acting on element refs, with no pixel automation and no desktop focus stealing. Built on [`agent-desktop`](https://github.com/vercel-labs/agent-desktop) by Vercel Labs, with BCG governance applied command by command. See [`docs/computer-use.md`](./docs/computer-use.md).
 - 🛡️ **Strict Explicit Opt-In:** Displays exact commands, targets, technical rationales, potential impacts, and verified rollback commands before modifying anything.
 - 📋 **Mandatory Service Reports:** Every troubleshooting session or diagnostic intervention produces an auditable, professional **Technical Service Report** ready for client delivery or ticketing systems.
 - 🧠 **Per-Machine Memory & Isolation:** Stores machine-specific profiles inside `.local/<machine-name>/` in a sanitized manner, strictly excluded from Git tracking.
@@ -41,6 +42,7 @@ Brazilian-Computer-Guy/
 ├── soul.md                       # Persona and voice of the prudent Brazilian IT technician
 ├── README.md                     # Portuguese documentation
 ├── README.en.md                  # English documentation
+├── CREDITS.md                    # Authorship, credits and third-party attributions
 ├── LICENSE                       # MIT License
 ├── package.json                  # Manifest, metadata, and verification scripts
 ├── .gitignore                    # Strict blocking of local states (.local/), logs, and reports
@@ -70,22 +72,43 @@ Brazilian-Computer-Guy/
 ├── procedimentos/                # Standard Operating Procedures (SOPs)
 │   ├── windows/                  # Services, Event Logs, Power, Boot, Disk Cleanup, etc.
 │   ├── debian/                   # Systemd, Journald, Boot/GRUB, APT, Packages
-│   └── rede/                     # Network connectivity, DNS, Ports, Routes
+│   ├── rede/                     # Network connectivity, DNS, Ports, Routes
+│   └── computer-use/             # GUI install, observe-act loop, accessibility diagnostics
 │
 ├── tools/                        # Native Diagnostic & Automation Scripts
 │   ├── windows/                  # Get-SystemDiagnostic.ps1, Test-NetworkHealth.ps1
 │   ├── debian/                   # system_diagnostic.sh, network_health.sh
+│   ├── computer-use/             # check_agent_desktop.sh, Check-AgentDesktop.ps1
 │   └── reporting/generate-report.js # CLI service report compiler
 │
 ├── docs/                         # Engineering and Governance Documentation
 │   ├── architecture.md           # Modular architecture and workflow
+│   ├── computer-use.md           # GUI operation layer: command classes and limits
 │   ├── security-and-permissions.md # Strict safety and opt-in policies
 │   ├── matrix-compatibility.md   # OS x AI Agents x Tools compatibility matrix
 │   ├── licenses.md               # Third-party attributions and licenses
 │   └── releases.md               # Version changelog (v1.0.0)
 │
-└── vendor/README.md              # Catalog of validated MCP servers
+└── vendor/                       # Catalog of validated MCP servers and integrations
+    ├── README.md
+    └── agent-desktop/            # Integration record (Vercel Labs, Apache-2.0)
 ```
+
+---
+
+## 🖱️ Computer Use (GUI Operation)
+
+Some problems only exist on screen: an installer that fails inside a dialog, a legacy app with no CLI, a control panel with no command-line equivalent. For those, BCG ships a GUI operation layer built on [`agent-desktop`](https://github.com/vercel-labs/agent-desktop) (**Vercel Labs**, **Apache-2.0**), which reads the OS accessibility tree instead of guessing by pixel.
+
+```bash
+npm install -g agent-desktop                            # Node.js 18+
+bash tools/computer-use/check_agent_desktop.sh          # Linux/macOS, read-only check
+agent-desktop status && agent-desktop permissions       # mandatory pre-flight
+```
+
+Governance does not change: observation commands (`snapshot`, `find`, `get`, `is`, `list-*`) run freely; any state-changing command (`click`, `type`, `set-value`, `launch`, `close-app`…) requires the same Intervention Proposal defined in `agent.md`. UAC, login screens, 2FA, passwords and financial data are forbidden under any circumstance.
+
+> **Hard limit:** on Windows this layer requires an **interactive** logged-in session. SSH, services and Session 0 cannot drive the client's GUI. On Linux, Ubuntu 24.04+ with AT-SPI is the supported target; Debian is **not** validated for this layer.
 
 ---
 
@@ -128,3 +151,5 @@ The output document follows strict IT engineering standards, ready to be attache
 ## 📄 License
 
 Distributed under the **MIT License**. See [`LICENSE`](./LICENSE) for full details.
+
+BCG integrates [`agent-desktop`](https://github.com/vercel-labs/agent-desktop), © **Vercel Labs**, under the **Apache-2.0** license. Credits, integration scope and what is **not** redistributed are documented in [`CREDITS.md`](./CREDITS.md) and [`docs/licenses.md`](./docs/licenses.md).

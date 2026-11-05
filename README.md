@@ -25,6 +25,7 @@ O agente atua com a mentalidade de um técnico brasileiro veterano: criativo par
 ## 🚀 Principais Capacidades
 
 - 🔍 **Diagnóstico Somente Leitura:** Coleta de evidências em profundidade sem riscos de instabilidade ou perda de dados.
+- 🖱️ **Operação de Interface Gráfica (Computer Use):** Lê a árvore de acessibilidade do sistema (UI Automation no Windows, AT-SPI no Linux) para diagnosticar e operar aplicativos que não têm linha de comando — por referência de elemento, sem automação por pixel e sem roubar o foco do usuário. Construído sobre o [`agent-desktop`](https://github.com/vercel-labs/agent-desktop) do Vercel Labs, com a governança do BCG aplicada comando por comando. Detalhes em [`docs/computer-use.md`](./docs/computer-use.md).
 - 🛡️ **Segurança e Autorização Explícita:** Apresenta comando, alvo, efeito e plano de reversão antes de qualquer alteração de estado.
 - 📋 **Relatórios Técnicos Obrigatórios:** Cada intervenção ou diagnóstico gera automaticamente um relatório completo e profissional pronto para arquivamento ou envio ao cliente final.
 - 🧠 **Memória e Histórico por Máquina:** Armazena o perfil de cada computador em `.local/<nome-da-maquina>/` de forma sanitizada e isolada do Git.
@@ -41,6 +42,7 @@ Brazilian-Computer-Guy/
 ├── soul.md                       # Personalidade do técnico brasileiro prudente
 ├── geminai.md                    # Adaptador Gemini AI; gatilhos e regras de segurança
 ├── README.md                     # Este manual
+├── CREDITS.md                    # Créditos, autoria e atribuições de terceiros
 ├── LICENSE                       # Licença MIT
 ├── package.json                  # Manifesto e utilitários
 ├── .gitignore                    # Bloqueio estrito de persistência e dados locais
@@ -69,7 +71,8 @@ Brazilian-Computer-Guy/
 ├── procedimentos/                # Guias Operacionais Padronizados (SOPs)
 │   ├── windows/                  # Serviços, Event Log, Energia, Boot, Limpeza, etc.
 │   ├── debian/                   # Systemd, Journald, GRUB, APT, Pacotes
-│   └── rede/                     # Conectividade, DNS, Portas e Rotas
+│   ├── rede/                     # Conectividade, DNS, Portas e Rotas
+│   └── computer-use/             # Instalação, laço de GUI e diagnóstico por acessibilidade
 │
 ├── pipelines/                    # Fluxos de diagnóstico e intervenção autorizada
 │   ├── README.md                 # Formato, selo e checklist de pipelines
@@ -79,17 +82,20 @@ Brazilian-Computer-Guy/
 ├── tools/                        # Scripts utilitários de diagnóstico e automação
 │   ├── windows/                  # Get-SystemDiagnostic.ps1, Test-NetworkHealth.ps1
 │   ├── debian/                   # system_diagnostic.sh, network_health.sh
+│   ├── computer-use/             # check_agent_desktop.sh, Check-AgentDesktop.ps1
 │   └── reporting/                # generate-report.js (compilador de relatórios)
 │
 ├── docs/                         # Documentação técnica e matriz de compatibilidade
 │   ├── architecture.md           # Arquitetura e fluxo de atendimento
+│   ├── computer-use.md           # Camada de operação GUI: classes de comando e limites
 │   ├── security-and-permissions.md # Diretrizes de segurança e opt-in
 │   ├── matrix-compatibility.md   # Matriz SO x Clientes de IA x Ferramentas
 │   ├── licenses.md               # Atribuição e licenças de componentes
 │   └── releases.md               # Histórico de versões
 │
 └── vendor/                       # Catálogo de MCPs homologados e integrações
-    └── README.md
+    ├── README.md
+    └── agent-desktop/            # Registro de integração (Vercel Labs, Apache-2.0)
 ```
 
 ---
@@ -116,6 +122,39 @@ Brazilian-Computer-Guy/
 
 ---
 
+## 🖱️ Computer Use (Operação de Interface Gráfica)
+
+Alguns problemas só existem na tela: um instalador que falha em um diálogo, um aplicativo legado sem CLI, um painel que não tem equivalente por linha de comando. Para esses casos, o BCG tem uma camada de operação de GUI construída sobre o [`agent-desktop`](https://github.com/vercel-labs/agent-desktop) (**Vercel Labs**, licença **Apache-2.0**), que lê a árvore de acessibilidade do sistema em vez de "adivinhar" por pixel.
+
+```bash
+# 1. Instalar (Node.js 18+). No macOS/Linux, também: brew install agent-desktop
+npm install -g agent-desktop
+
+# 2. Verificar a instalação e as permissões (somente leitura)
+bash tools/computer-use/check_agent_desktop.sh        # Linux/macOS
+# powershell -ExecutionPolicy Bypass -File .\tools\computer-use\Check-AgentDesktop.ps1   # Windows
+
+# 3. Pré-voo obrigatório
+agent-desktop status
+agent-desktop permissions
+```
+
+A governança **não muda**: comandos de observação (`snapshot`, `find`, `get`, `is`, `list-*`) rodam livremente; qualquer comando que altere estado (`click`, `type`, `set-value`, `launch`, `close-app`…) exige a mesma Proposta de Intervenção do `agent.md`. UAC, tela de login, 2FA, senhas e dados financeiros são proibidos em qualquer hipótese.
+
+| Recurso | Link |
+|---|---|
+| Arquitetura, classes A/B/C e limites | [`docs/computer-use.md`](./docs/computer-use.md) |
+| Instalação e verificação | [`procedimentos/computer-use/instalacao-e-verificacao.md`](./procedimentos/computer-use/instalacao-e-verificacao.md) |
+| Laço observar → agir → verificar | [`procedimentos/computer-use/loop-observacao-acao.md`](./procedimentos/computer-use/loop-observacao-acao.md) |
+| Diagnóstico GUI — Windows | [`procedimentos/computer-use/diagnostico-gui-windows.md`](./procedimentos/computer-use/diagnostico-gui-windows.md) |
+| Diagnóstico GUI — Linux | [`procedimentos/computer-use/diagnostico-gui-linux.md`](./procedimentos/computer-use/diagnostico-gui-linux.md) |
+| Registro de integração | [`vendor/agent-desktop/README.md`](./vendor/agent-desktop/README.md) |
+| Créditos e licença | [`CREDITS.md`](./CREDITS.md) |
+
+> **Limite importante:** no Windows a camada exige **sessão interativa** do usuário logado. SSH, serviço e Session 0 não conseguem dirigir a GUI do cliente. No Linux, o homologado é Ubuntu 24.04+ com AT-SPI; Debian **não** está homologado para esta camada.
+
+---
+
 ## 📊 Geração de Relatórios Técnicos
 
 Toda ação de diagnóstico ou manutenção gera um relatório final estruturado. Você pode compilar um relatório a qualquer momento executando:
@@ -133,3 +172,9 @@ O documento gerado segue as normas profissionais de atendimento técnico de info
 ## 📄 Licença
 
 Distribuído sob a licença **MIT**. Veja [`LICENSE`](./LICENSE) para mais detalhes.
+
+O BCG integra o projeto [`agent-desktop`](https://github.com/vercel-labs/agent-desktop), © **Vercel Labs**, sob licença **Apache-2.0**. Créditos, escopo da integração e o que **não** é redistribuído estão em [`CREDITS.md`](./CREDITS.md) e [`docs/licenses.md`](./docs/licenses.md).
+
+---
+
+<sub>Idealizado e mantido por **Gabriel Subtil** — [github.com/gabrielsubtil](https://github.com/gabrielsubtil).</sub>

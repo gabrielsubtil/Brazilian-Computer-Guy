@@ -35,3 +35,16 @@ O projeto **Brazilian Computer Guy** é distribuído sob licença **MIT** e inte
 ## 5. Model Context Protocol (MCP)
 - **Mantenedor:** Anthropic & Comunidade Open Source
 - **Especificação:** Padrão aberto de interoperabilidade entre agentes de IA e ferramentas locais/remotas.
+
+---
+
+## 6. agent-desktop (Vercel Labs)
+- **Fornecedor / Mantenedor:** Vercel Labs (Vercel)
+- **Repositório:** <https://github.com/vercel-labs/agent-desktop>
+- **Licença:** Apache-2.0 — [LICENSE do projeto upstream](https://github.com/vercel-labs/agent-desktop/blob/main/LICENSE).
+- **Versão de referência:** npm `agent-desktop` v1.2.0 (binário `agent-desktop`).
+- **Revisão fixada:** `b43ac4f6e892ef608f8851428613c4009f0e84c7` (2026-11-05).
+- **Finalidade no BCG:** Camada de Computer Use para observação da árvore de acessibilidade e operação de interface gráfica por CLI e MCP stdio, subordinada às Classes A, B e C de [`computer-use.md`](./computer-use.md).
+- **Distribuição e marcas:** O BCG não redistribui binário nem código do `agent-desktop`. A integração não é endossada, patrocinada ou certificada pela Vercel.
+
+Atribuições completas: [CREDITS.md](../CREDITS.md).

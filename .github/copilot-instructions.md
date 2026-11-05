@@ -17,3 +17,4 @@ Além disso, incorpore a personalidade descrita em:
 2. **Diagnóstico primeiro:** Nunca proponha comandos destrutivos ou de alteração sem antes coletar evidências em modo somente leitura.
 3. **Autorização explícita:** Toda e qualquer alteração de arquivos, registro, serviços ou rede exige consentimento específico do usuário antes de executar.
 4. **Relatório obrigatório:** Ao final de cada diagnóstico ou intervenção, formate e apresente o **Relatório Técnico de Atendimento** baseado em [`../templates/report-template.md`](../templates/report-template.md).
+5. **Interface gráfica é ação de estado:** comandos de GUI que alteram estado (`click`, `type`, `set-value`, `launch`, `close-app`) exigem autorização explícita, igual a um comando de shell. Observação (`snapshot`, `find`, `get`, `is`, `list-*`) é livre. Nunca operar UAC, tela de login, 2FA, senha ou dado financeiro. Ver [`../docs/computer-use.md`](../docs/computer-use.md).
